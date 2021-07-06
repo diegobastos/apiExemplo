@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +18,8 @@ import com.apiexemplo.domain.Pessoa;
 import com.apiexemplo.repository.IPessoaRepository;
 
 @RestController
-@RequestMapping("/v1/pessoas")
-public class PessoasResource {
+@RequestMapping("/v2/pessoas")
+public class PessoasResource2 {
 	
 	@Autowired
 	private IPessoaRepository repository;
@@ -31,17 +32,22 @@ public class PessoasResource {
 	}
 	
 	@PostMapping()
-	public void salvarPessoa(@RequestBody Pessoa p) {
-		repository.save(p);
+	public ResponseEntity<Pessoa> salvarPessoa(@RequestBody Pessoa p) {
+		return ResponseEntity.
+				status(HttpStatus.OK).
+				body(this.repository.save(p));
 	}
 	
 	@PutMapping()
-	public void atualizarNome() {
-		
-	}
+	public void atualizarNome() {}
 	
-	@DeleteMapping()
-	public void excluirNome() {
+	//DELETE -> http://localhost:1805/v2/pessoas/100
+	@DeleteMapping(value = "/{id}")
+	public void excluirPessoa(@PathVariable Long id) {
 		
+		if ( this.repository.getById(id).getId() > 0 ) {
+			repository.deleteById(id);
+		}
+	
 	}
 }
