@@ -45,9 +45,9 @@ public class Pessoa {
 	        columnDefinition = "varchar(36) not null")
     private String uuid;
 	
-	//@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	//@JoinColumn(name = "pessoa_id")
-	//private List<Endereco> enderecos = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "pessoa_id")
+	private List<Endereco> enderecos = new ArrayList<>();
 	
 	public Pessoa() {
 		UUID uuid_ = UUID.randomUUID();
@@ -90,12 +90,12 @@ public class Pessoa {
 		return uuid;
 	}
 
-//	public List<Endereco> getEnderecos() {
-//		return enderecos;
-//	}
-//
-//	public void setEnderecos(List<Endereco> enderecos) {
-//		this.enderecos = enderecos;
-//	}
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
 	
 }
