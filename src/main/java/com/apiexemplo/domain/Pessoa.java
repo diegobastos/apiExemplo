@@ -1,13 +1,18 @@
 package com.apiexemplo.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,7 +32,7 @@ public class Pessoa {
 	@NotNull
 	private String nome;
 	
-	@NotNull
+	@NotNull(message = "Sobrenome deve ser preenchido")
 	private String sobrenome;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
@@ -35,15 +40,20 @@ public class Pessoa {
 	
 	@JsonInclude(Include.NON_NULL)
 	@JsonProperty("uuid")
-	@Column(name = "ext_uuid", updatable = false, 
-			columnDefinition = "varchar(36) not null")
+	@Column(name = "ext_uuid", 
+	        updatable = false, 
+	        columnDefinition = "varchar(36) not null")
     private String uuid;
+	
+	//@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JoinColumn(name = "pessoa_id")
+	//private List<Endereco> enderecos = new ArrayList<>();
 	
 	public Pessoa() {
 		UUID uuid_ = UUID.randomUUID();
 		this.uuid = uuid_.toString(); 
 	}
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -79,5 +89,13 @@ public class Pessoa {
 	public String getUuid() {
 		return uuid;
 	}
+
+//	public List<Endereco> getEnderecos() {
+//		return enderecos;
+//	}
+//
+//	public void setEnderecos(List<Endereco> enderecos) {
+//		this.enderecos = enderecos;
+//	}
 	
 }

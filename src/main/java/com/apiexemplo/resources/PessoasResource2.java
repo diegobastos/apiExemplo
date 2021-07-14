@@ -25,15 +25,14 @@ public class PessoasResource2 {
 	private IPessoaRepository repository;
 	
 	@GetMapping
-	public ResponseEntity<List<Pessoa>> listPessoas() {	
-       	return ResponseEntity.
+	public ResponseEntity<List<Pessoa>> listAllPessoas() {			 
+		return ResponseEntity.
 			   status(HttpStatus.OK).
 			   body( repository.findAll() );
 	}
 	
-
 	@GetMapping(value = "/{uuid}")
-	public ResponseEntity<Pessoa> getByUuid(@PathVariable String uuid) {	
+	public ResponseEntity<Pessoa> buscarPorUuid(@PathVariable String uuid) {	
        	return ResponseEntity.
 			   status(HttpStatus.OK).
 			   body( repository.getByUuid(uuid) );
@@ -47,14 +46,17 @@ public class PessoasResource2 {
 				body( this.repository.save(p) );
 	}
 	
+	@DeleteMapping(value = "/{uuid}")
+	public ResponseEntity<Void> excluirPessoa(@PathVariable String uuid) {
+		Pessoa p = repository.findByUuid(uuid);
+		
+		if ( p != null ) {
+			repository.deleteById(p.getId());
+		} 
+		
+		return ResponseEntity.noContent().build();
+	}
+	
 	@PutMapping()
 	public void atualizarNome() {}
-	
-	//[DELETE] -> http://localhost:1805/v2/pessoas/100
-	@DeleteMapping(value = "/{id}")
-	public void excluirPessoa(@PathVariable Long id) {
-		if ( repository.findById(id).orElse(null) != null ) {
-			repository.deleteById(id);
-		} 
-	}
 }

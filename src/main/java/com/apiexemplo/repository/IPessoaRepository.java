@@ -7,7 +7,13 @@ import com.apiexemplo.domain.Pessoa;
 
 @Repository
 public interface IPessoaRepository extends JpaRepository<Pessoa, Long>{
-
+    //Retorno atributoPesquisado(parametro de pesquisa)
+	Pessoa getByNome(String nome);
+	 
 	Pessoa getByUuid(String uuid);
+
+	Pessoa findByUuid(String uuid);
 	
+	void deleteByUuid(String uuit);
+		
 }
