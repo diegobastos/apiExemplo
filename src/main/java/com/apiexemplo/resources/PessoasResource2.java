@@ -14,49 +14,71 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.apiexemplo.domain.Pessoa;
-import com.apiexemplo.repository.IPessoaRepository;
+import com.apiexemplo.domains.Endereco;
+import com.apiexemplo.domains.Pessoa;
+import com.apiexemplo.repositories.IEnderecoRepository;
+import com.apiexemplo.repositories.IPessoaRepository;
 
 @RestController
 @RequestMapping("/v2/pessoas")
 public class PessoasResource2 {
-	
+
 	@Autowired
-	private IPessoaRepository repository;
+	private IPessoaRepository repPessoa;
+
+	@Autowired
+	private IEnderecoRepository repEndereco;
 	
 	@GetMapping
 	public ResponseEntity<List<Pessoa>> listAllPessoas() {			 
 		return ResponseEntity.
-			   status(HttpStatus.OK).
-			   body( repository.findAll() );
+				status(HttpStatus.OK).
+				body( repPessoa.findAll() );
 	}
-	
+
 	@GetMapping(value = "/{uuid}")
 	public ResponseEntity<Pessoa> buscarPorUuid(@PathVariable String uuid) {	
-       	return ResponseEntity.
-			   status(HttpStatus.OK).
-			   body( repository.getByUuid(uuid) );
+		return ResponseEntity.
+				status(HttpStatus.OK).
+				body( repPessoa.getByUuid(uuid) );
 	}
-	
+
 	@PostMapping()
 	public ResponseEntity<Pessoa> salvarPessoa(@RequestBody Pessoa p) {
 
 		return ResponseEntity.
 				status(HttpStatus.OK).
-				body( this.repository.save(p) );
+				body( this.repPessoa.save(p) );
 	}
-	
+
 	@DeleteMapping(value = "/{uuid}")
 	public ResponseEntity<Void> excluirPessoa(@PathVariable String uuid) {
-		Pessoa p = repository.findByUuid(uuid);
-		
+		Pessoa p = repPessoa.findByUuid(uuid);
+
 		if ( p != null ) {
-			repository.deleteById(p.getId());
+			repPessoa.deleteById(p.getId());
 		} 
-		
+
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping()
 	public void atualizarNome() {}
+
+	@DeleteMapping(value = "/{uuid}/enderecos/{id}")
+	public ResponseEntity<?> excluirEndereco(@PathVariable("uuid") String uuid, 
+											 @PathVariable("id") Long id){
+		Pessoa p = repPessoa.findByUuid(uuid);
+        final Endereco e;
+		
+		if ( p != null ) {
+			e = repEndereco.getById(id);
+			
+			if (e != null && e.getPessoa().getId() == p.getId()) {
+				repEndereco.deleteById(e.getId());
+			}			
+		} 
+
+		return ResponseEntity.noContent().build();
+	}
 }

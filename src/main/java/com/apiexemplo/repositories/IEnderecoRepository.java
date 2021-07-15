@@ -1,8 +1,8 @@
-package com.apiexemplo.repository;
+package com.apiexemplo.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.apiexemplo.domain.Endereco;
+import com.apiexemplo.domains.Endereco;
 
 public interface IEnderecoRepository extends JpaRepository<Endereco, Long>{
 

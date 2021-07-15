@@ -1,4 +1,4 @@
-package com.apiexemplo.domain;
+package com.apiexemplo.domains;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.springframework.context.annotation.Lazy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Endereco {
@@ -22,6 +26,8 @@ public class Endereco {
 	
 	private String cidadeUF;
 	
+    @Lazy
+	@JsonIgnore
 	@ManyToOne()
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
@@ -64,6 +70,10 @@ public class Endereco {
 
 	public void setCidadeUF(String cidadeUF) {
 		this.cidadeUF = cidadeUF;
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
 	}
 
 }

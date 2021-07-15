@@ -1,9 +1,9 @@
-package com.apiexemplo.repository;
+package com.apiexemplo.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.apiexemplo.domain.Pessoa;
+import com.apiexemplo.domains.Pessoa;
 
 @Repository
 public interface IPessoaRepository extends JpaRepository<Pessoa, Long>{

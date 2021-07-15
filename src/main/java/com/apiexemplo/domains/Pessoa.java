@@ -1,4 +1,4 @@
-package com.apiexemplo.domain;
+package com.apiexemplo.domains;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,9 +24,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 public class Pessoa {
 
-	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;	
 	
 	@NotNull
@@ -48,11 +48,7 @@ public class Pessoa {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "pessoa_id")
 	private List<Endereco> enderecos = new ArrayList<>();
-	
-	public Pessoa() {
-		UUID uuid_ = UUID.randomUUID();
-		this.uuid = uuid_.toString(); 
-	}
+
 	
 	public String getNome() {
 		return nome;
@@ -96,6 +92,10 @@ public class Pessoa {
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 }

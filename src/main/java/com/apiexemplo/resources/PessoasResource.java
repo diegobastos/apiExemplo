@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.apiexemplo.domain.Pessoa;
-import com.apiexemplo.repository.IPessoaRepository;
+import com.apiexemplo.domains.Pessoa;
+import com.apiexemplo.repositories.IPessoaRepository;
 
 @RestController
 @RequestMapping("/v1/pessoas")
