@@ -2,7 +2,6 @@ package com.apiexemplo.resources;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,33 +13,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.apiexemplo.domains.Endereco;
 import com.apiexemplo.domains.Pessoa;
-import com.apiexemplo.repositories.IEnderecoRepository;
-import com.apiexemplo.repositories.IPessoaRepository;
+import com.apiexemplo.services.PessoasService;
 
 @RestController
 @RequestMapping("/v2/pessoas")
 public class PessoasResource2 {
 
-	@Autowired
-	private IPessoaRepository repPessoa;
-
-	@Autowired
-	private IEnderecoRepository repEndereco;
+	private PessoasService svc;
 	
 	@GetMapping
 	public ResponseEntity<List<Pessoa>> listAllPessoas() {			 
 		return ResponseEntity.
 				status(HttpStatus.OK).
-				body( repPessoa.findAll() );
+				body( svc.listarPessoas() );
 	}
 
 	@GetMapping(value = "/{uuid}")
 	public ResponseEntity<Pessoa> buscarPorUuid(@PathVariable String uuid) {	
 		return ResponseEntity.
 				status(HttpStatus.OK).
-				body( repPessoa.getByUuid(uuid) );
+				body( svc.listarPessoaPorUuid(uuid) );
 	}
 
 	@PostMapping()
@@ -48,18 +41,15 @@ public class PessoasResource2 {
 
 		return ResponseEntity.
 				status(HttpStatus.OK).
-				body( this.repPessoa.save(p) );
+				body( svc.salvarPessoa(p) );
 	}
 
 	@DeleteMapping(value = "/{uuid}")
 	public ResponseEntity<Void> excluirPessoa(@PathVariable String uuid) {
-		Pessoa p = repPessoa.findByUuid(uuid);
-
-		if ( p != null ) {
-			repPessoa.deleteById(p.getId());
-		} 
-
-		return ResponseEntity.noContent().build();
+		if (svc.excluirPessoa(uuid)) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@PutMapping()
@@ -67,17 +57,8 @@ public class PessoasResource2 {
 
 	@DeleteMapping(value = "/{uuid}/enderecos/{id}")
 	public ResponseEntity<?> excluirEndereco(@PathVariable("uuid") String uuid, 
-											 @PathVariable("id") Long id){
-		Pessoa p = repPessoa.findByUuid(uuid);
-        final Endereco e;
-		
-		if ( p != null ) {
-			e = repEndereco.getById(id);
-			
-			if (e != null && e.getPessoa().getId() == p.getId()) {
-				repEndereco.deleteById(e.getId());
-			}			
-		} 
+											 @PathVariable("id") Long id) {
+        svc.excluirEndereco(uuid, id);
 
 		return ResponseEntity.noContent().build();
 	}
