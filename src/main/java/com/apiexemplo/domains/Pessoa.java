@@ -3,7 +3,6 @@ package com.apiexemplo.domains;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,10 +44,10 @@ public class Pessoa {
 	        columnDefinition = "varchar(36) not null")
     private String uuid;
 	
+	//1 : N
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "pessoa_id")
+	@JoinColumn(name = "pessoa_id") //FK na tabela endereco.pessoa_id
 	private List<Endereco> enderecos = new ArrayList<>();
-
 	
 	public String getNome() {
 		return nome;

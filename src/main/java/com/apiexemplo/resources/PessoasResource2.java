@@ -2,6 +2,7 @@ package com.apiexemplo.resources;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,8 +21,9 @@ import com.apiexemplo.services.PessoasService;
 @RequestMapping("/v2/pessoas")
 public class PessoasResource2 {
 
+	@Autowired
 	private PessoasService svc;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Pessoa>> listAllPessoas() {			 
 		return ResponseEntity.
@@ -41,7 +43,7 @@ public class PessoasResource2 {
 
 		return ResponseEntity.
 				status(HttpStatus.OK).
-				body( svc.salvarPessoa(p) );
+				body( this.svc.salvarPessoa(p) );
 	}
 
 	@DeleteMapping(value = "/{uuid}")
@@ -57,8 +59,8 @@ public class PessoasResource2 {
 
 	@DeleteMapping(value = "/{uuid}/enderecos/{id}")
 	public ResponseEntity<?> excluirEndereco(@PathVariable("uuid") String uuid, 
-											 @PathVariable("id") Long id) {
-        svc.excluirEndereco(uuid, id);
+			@PathVariable("id") Long id) {
+		svc.excluirEndereco(uuid, id);
 
 		return ResponseEntity.noContent().build();
 	}

@@ -9,7 +9,7 @@ public class UUIDServices {
 	
 	public static String genUUID() {
 		UUID uuid_ = UUID.randomUUID();
-		return uuid_.toString().replace("- ", "");
+		return uuid_.toString().replace("-", "");
 	}
 
 }

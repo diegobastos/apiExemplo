@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import org.springframework.context.annotation.Lazy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Endereco {
@@ -24,12 +25,13 @@ public class Endereco {
 	
 	private String bairro;
 	
+	@JsonProperty("cidade_uf")
 	private String cidadeUF;
 	
     @Lazy
 	@JsonIgnore
-	@ManyToOne()
-	@JoinColumn(name = "pessoa_id")
+	@ManyToOne() //Muitos endereços para uma pessoa (N:1)
+	@JoinColumn(name = "pessoa_id") //(FK)
 	private Pessoa pessoa;
 
 	public Long getId() {
