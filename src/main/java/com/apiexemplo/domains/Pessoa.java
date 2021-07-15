@@ -44,9 +44,8 @@ public class Pessoa {
 	        columnDefinition = "varchar(36) not null")
     private String uuid;
 	
-	//1 : N
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "pessoa_id") //FK na tabela endereco.pessoa_id
+	@JoinColumn(name = "pessoa_id")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	public String getNome() {

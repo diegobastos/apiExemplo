@@ -30,8 +30,8 @@ public class Endereco {
 	
     @Lazy
 	@JsonIgnore
-	@ManyToOne() //Muitos endereços para uma pessoa (N:1)
-	@JoinColumn(name = "pessoa_id") //(FK)
+	@ManyToOne()
+	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 
 	public Long getId() {
@@ -76,6 +76,10 @@ public class Endereco {
 
 	public Pessoa getPessoa() {
 		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 }

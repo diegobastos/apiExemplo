@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.apiexemplo.domains.Endereco;
 import com.apiexemplo.domains.Pessoa;
+import com.apiexemplo.services.EnderecosService;
 import com.apiexemplo.services.PessoasService;
 
 @RestController
@@ -23,6 +25,9 @@ public class PessoasResource2 {
 
 	@Autowired
 	private PessoasService svc;
+	
+	@Autowired
+	private EnderecosService eSvc;
 
 	@GetMapping
 	public ResponseEntity<List<Pessoa>> listAllPessoas() {			 
@@ -63,5 +68,19 @@ public class PessoasResource2 {
 		svc.excluirEndereco(uuid, id);
 
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping(value = "/{uuid}/enderecos")
+	public ResponseEntity<?> salvarNovoEndereco(@PathVariable String uuid, 
+	                                            @RequestBody Endereco endereco){
+	   Pessoa p = svc.listarPessoaPorUuid(uuid);
+	 
+	   if (p != null){ 
+	      endereco.setPessoa( p );
+	      eSvc.salvarEndereco(endereco);     
+	   }
+	   
+	   return ResponseEntity.noContent().build();
+
 	}
 }
