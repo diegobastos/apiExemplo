@@ -64,10 +64,12 @@ public class PessoasResource2 {
 
 	@DeleteMapping(value = "/{uuid}/enderecos/{id}")
 	public ResponseEntity<?> excluirEndereco(@PathVariable("uuid") String uuid, 
-			@PathVariable("id") Long id) {
-		svc.excluirEndereco(uuid, id);
-
-		return ResponseEntity.noContent().build();
+			                                 @PathVariable("id") Long id) {
+		if (svc.excluirEndereco(uuid, id)) {
+			return ResponseEntity.status(HttpStatus.OK).build();			
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}				
 	}
 	
 	@PostMapping(value = "/{uuid}/enderecos")

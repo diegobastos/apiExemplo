@@ -27,7 +27,7 @@ public class PessoasService {
 		return repPessoa.findByUuid(uuid);
 	}
 	
-	public Pessoa salvarPessoa(Pessoa p) {
+	public Pessoa salvarPessoa(Pessoa p) {	
 		p.setUuid( UUIDServices.genUUID() );
 		return repPessoa.save(p);
 	}
