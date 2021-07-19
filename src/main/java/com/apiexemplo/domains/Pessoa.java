@@ -14,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -44,8 +47,9 @@ public class Pessoa {
 	        columnDefinition = "varchar(36) not null")
     private String uuid;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
 	@JoinColumn(name = "pessoa_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)//hibernate
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	public String getNome() {

@@ -13,7 +13,5 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>{
 	Pessoa getByUuid(String uuid);
 
 	Pessoa findByUuid(String uuid);
-	
-	void deleteByUuid(String uuid);
 		
 }

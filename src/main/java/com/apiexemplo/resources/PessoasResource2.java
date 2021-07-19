@@ -54,9 +54,9 @@ public class PessoasResource2 {
 	@DeleteMapping(value = "/{uuid}")
 	public ResponseEntity<Void> excluirPessoa(@PathVariable String uuid) {
 		if (svc.excluirPessoa(uuid)) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 
 	@PutMapping()
