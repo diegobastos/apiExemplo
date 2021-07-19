@@ -49,6 +49,7 @@ public class PessoasResource2 {
 		return ResponseEntity.
 				status(HttpStatus.OK).
 				body( this.svc.salvarPessoa(p) );
+		
 	}
 
 	@DeleteMapping(value = "/{uuid}")
